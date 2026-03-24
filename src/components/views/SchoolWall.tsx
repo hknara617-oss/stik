@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { findOrCreateSchoolWall, getWallSignals } from "@/app/actions/wallActions";
-import { createSignal } from "@/app/actions/signalActions";
+import { createStik } from "@/app/actions/stikActions";
 import { useAuth } from "@/lib/useAuth";
 
 export function SchoolWall() {
@@ -50,7 +50,7 @@ export function SchoolWall() {
     if (!searchState || !wallId) return alert("먼저 학급 벽을 검색해주세요.");
     if (!deviceId) return alert("기기 식별자를 찾을 수 없습니다.");
     
-    const { success, error } = await createSignal(wallId, deviceId, noteText, selectedColor);
+    const { success, error } = await createStik(wallId, deviceId, noteText, selectedColor);
     
     if (!success) {
       return alert(error || "신호를 남기지 못했습니다.");
@@ -80,7 +80,7 @@ export function SchoolWall() {
           <div className="font-nanum text-[10px] tracking-[0.42em] uppercase text-gold">Stik · 2026</div>
         </div>
         <h1 className="font-nanum text-3xl md:text-5xl font-extrabold leading-[1.08] text-text mb-3.5">
-          그 시절, 그 사람에게<br/><span className="text-transparent" style={{ WebkitTextStroke: '1px var(--gold)' }}>아직 닿지 않은 말들</span>
+          그 시절 우리들,<br/><span className="text-transparent" style={{ WebkitTextStroke: '1px var(--gold)' }}>그때 닿지 못한 말들</span>
         </h1>
         <p className="text-[13.5px] text-muted2 leading-[1.85] max-w-[460px] mb-5">
           이름도 연락처도 모르지만 — 같은 교실에 있었던 당신에게.<br/>

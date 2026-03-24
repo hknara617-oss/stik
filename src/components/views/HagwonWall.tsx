@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { findOrCreateHagwonWall, getWallSignals } from "@/app/actions/wallActions";
-import { createSignal } from "@/app/actions/signalActions";
+import { createStik } from "@/app/actions/stikActions";
 import { useAuth } from "@/lib/useAuth";
 
 export function HagwonWall() {
@@ -50,7 +50,7 @@ export function HagwonWall() {
     if (!searchState || !wallId) return alert("먼저 학원 벽을 검색해주세요.");
     if (!deviceId) return alert("기기 식별자를 찾을 수 없습니다.");
     
-    const { success, error } = await createSignal(wallId, deviceId, noteText, selectedColor);
+    const { success, error } = await createStik(wallId, deviceId, noteText, selectedColor);
     
     if (!success) {
       return alert(error || "신호를 남기지 못했습니다.");

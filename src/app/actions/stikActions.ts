@@ -2,8 +2,8 @@
 
 import { supabase } from "@/lib/supabaseClient";
 
-export async function createSignal(wallId: string, deviceId: string, message: string, color: string) {
-  // Check if this device already has a signal on this wall
+export async function createStik(wallId: string, deviceId: string, message: string, color: string) {
+  // Check if this device already has a stik on this wall
   const { data: existing } = await supabase
     .from('signals')
     .select('id')
@@ -29,7 +29,7 @@ export async function createSignal(wallId: string, deviceId: string, message: st
     .single();
 
   if (error) {
-    console.error("Error creating signal:", error);
+    console.error("Error creating stik:", error);
     return { success: false, error: error.message };
   }
 

@@ -83,7 +83,25 @@ export function MemoryFragments() {
 
       <div className="px-5 py-6 md:px-10 flex flex-col gap-[1px]">
         {memories.map((m, i) => (
-          <div key={i} className="py-4 border-b border-border last:border-0 animate-[logIn_0.35s_ease_both]" style={{ animationDelay: `${i*0.04}s` }}>
+          <div key={i} className="relative py-4 border-b border-border last:border-0 animate-[logIn_0.35s_ease_both] group" style={{ animationDelay: `${i*0.04}s` }}>
+              {/* Share Button (Andrew Chen's Viral Loop) */}
+              <button 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  const text = `"${m.q}" - Stik에서 내 학창시절 기억 조각을 공유했어요. 함께 추억을 나누실래요?`;
+                  if (navigator.share) {
+                    navigator.share({ title: 'Stik 추억 조각', text, url: window.location.href });
+                  } else {
+                    navigator.clipboard.writeText(`${text} ${window.location.href}`);
+                    alert('공유 링크가 클립보드에 복사되었습니다.');
+                  }
+                }}
+                className="absolute top-2 right-2 w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white/10"
+              >
+                <span className="text-[10px] text-muted2">🔗</span>
+              </button>
+              
+            <div className="text-[9px] uppercase tracking-[0.2em] text-muted mb-2 font-dodum">Memory #{m.id}</div>
             <div className="text-[9px] tracking-[0.12em] uppercase text-muted mb-2 flex items-center gap-1.5">
               <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: m.qc }}></div>{m.q}의 질문
             </div>

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import { useAuth } from "@/lib/useAuth";
 
-export function MySignal() {
+export function MyStik() {
   const { deviceId } = useAuth();
   const [temp, setTemp] = useState(35);
   const [memCount] = useState(4);
@@ -17,8 +17,8 @@ export function MySignal() {
   useEffect(() => {
     if (!deviceId) return;
 
-    // Fetch initial signal for the device
-    const fetchSignal = async () => {
+    // Fetch initial stik for the device
+    const fetchStik = async () => {
       const { data } = await supabase
         .from('signals')
         .select('*')
@@ -35,10 +35,10 @@ export function MySignal() {
       }
     };
     
-    fetchSignal();
+    fetchStik();
 
-    // Subscribe to realtime updates for this device's signals
-    const channel = supabase.channel('signal_updates')
+    // Subscribe to realtime updates for this device's stiks
+    const channel = supabase.channel('stik_updates')
       .on('postgres_changes', 
         { event: 'UPDATE', schema: 'public', table: 'signals', filter: `device_id=eq.${deviceId}` }, 
         (payload) => {
@@ -64,12 +64,14 @@ export function MySignal() {
     // Optimistic update
     setTemp(newTemp);
     
-    // Update DB
-    if (deviceId) {
+    const updateTemp = async (newTemp: number) => {
       const { data } = await supabase.from('signals').select('id').eq('device_id', deviceId).limit(1).single();
       if (data) {
         await supabase.from('signals').update({ temperature: newTemp }).eq('id', data.id);
       }
+    };
+    if (deviceId) {
+      await updateTemp(newTemp);
     }
   };
 
@@ -90,7 +92,7 @@ export function MySignal() {
         <div className="font-nanum text-[clamp(18px,3.2vw,30px)] font-bold text-text leading-[1.45] max-w-[560px] mb-3.5">
           &quot;함께 매점을 향해 뛰던 우리,&quot;<br/>문득 그리워진다
         </div>
-        <div className="text-xs text-muted">보낸 날: 2026년 3월 1일 · 만료까지 {daysLeft}일</div>
+        <div className="text-xs text-muted">Stik 전송일: 2026년 3월 1일 · 만료까지 {daysLeft}일</div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-border border border-border">

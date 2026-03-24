@@ -5,7 +5,7 @@ import { TopNav } from "@/components/TopNav";
 import { BottomNav } from "@/components/BottomNav";
 import { SchoolWall } from "@/components/views/SchoolWall";
 import { HagwonWall } from "@/components/views/HagwonWall";
-import { MySignal } from "@/components/views/MySignal";
+import { MyStik } from "@/components/views/MyStik";
 import { MemoryFragments } from "@/components/views/MemoryFragments";
 import { Countdown } from "@/components/views/Countdown";
 import { MatchModals } from "@/components/MatchModals";
@@ -38,7 +38,7 @@ export default function Home() {
       <main className="flex-1 w-full max-w-[1200px] mx-auto">
         <div className={activeTab === 'v1' ? 'block' : 'hidden'}><SchoolWall /></div>
         <div className={activeTab === 'v5' ? 'block' : 'hidden'}><HagwonWall /></div>
-        <div className={activeTab === 'v2' ? 'block' : 'hidden'}><MySignal /></div>
+        <div className={activeTab === 'v2' ? 'block' : 'hidden'}><MyStik /></div>
         <div className={activeTab === 'v3' ? 'block' : 'hidden'}><MemoryFragments /></div>
         <div className={activeTab === 'v4' ? 'block' : 'hidden'}><Countdown /></div>
       </main>
