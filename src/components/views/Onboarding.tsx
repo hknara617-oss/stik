@@ -24,15 +24,15 @@ export function Onboarding({ onComplete }: { onComplete: () => void }) {
       <div className="max-w-[400px] w-full flex flex-col items-center justify-center min-h-[50vh] relative z-10 text-center">
         {step >= 1 && (
           <div className="font-nanum text-2xl md:text-3xl text-text leading-[1.6] animate-[noteIn_1.5s_ease-out_both] mb-12">
-            그 시절,<br/>
-            창가 자리에 앉았던 너.
+            함께 매점을 향해 뛰던 쉬는 시간,<br/>
+            분필 가루 날리던 왁자지껄한 교실.
           </div>
         )}
         
         {step >= 2 && (
           <div className="font-nanum text-2xl md:text-3xl text-text leading-[1.6] animate-[noteIn_1.5s_ease-out_both] mb-16">
-            이름도 연락처도 모르지만<br/>
-            혹시 너도 날 기억할까?
+            이름은 가물가물해도<br/>
+            문득 그리워지는 그 시절 우리들.
           </div>
         )}
 

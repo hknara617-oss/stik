@@ -88,7 +88,7 @@ export function MySignal() {
         <div className="absolute -top-20 -right-20 w-[480px] h-[480px] rounded-full pointer-events-none transition-colors duration-1000 ease-in-out" style={{ background: `radial-gradient(circle, ${cfg.glow} 0%, transparent 65%)` }}></div>
         <div className="text-[10.5px] tracking-[0.2em] uppercase text-muted mb-2">서울중학교 · 1998년 2학년</div>
         <div className="font-nanum text-[clamp(18px,3.2vw,30px)] font-bold text-text leading-[1.45] max-w-[560px] mb-3.5">
-          &quot;창가 자리에 앉았던 너,&quot;<br/>아직도 생각나
+          &quot;함께 매점을 향해 뛰던 우리,&quot;<br/>문득 그리워진다
         </div>
         <div className="text-xs text-muted">보낸 날: 2026년 3월 1일 · 만료까지 {daysLeft}일</div>
       </div>
