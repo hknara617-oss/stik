@@ -19,13 +19,13 @@ export default function Home() {
   const [showOnboarding, setShowOnboarding] = useState(false);
 
   useEffect(() => {
-    if (!localStorage.getItem('signal_onboarded')) {
+    if (!localStorage.getItem('stik_onboarded')) {
       setShowOnboarding(true);
     }
   }, []);
 
   const finishOnboarding = () => {
-    localStorage.setItem('signal_onboarded', 'true');
+    localStorage.setItem('stik_onboarded', 'true');
     setShowOnboarding(false);
   };
 

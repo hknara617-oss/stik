@@ -77,7 +77,7 @@ export function SchoolWall() {
           <div className="w-8 h-8 rounded-full border border-gold/50 flex items-center justify-center">
             <span className="text-gold text-xs">✦</span>
           </div>
-          <div className="font-nanum text-[10px] tracking-[0.42em] uppercase text-gold">Signal · 시그널 · 2026</div>
+          <div className="font-nanum text-[10px] tracking-[0.42em] uppercase text-gold">Stik · 2026</div>
         </div>
         <h1 className="font-nanum text-3xl md:text-5xl font-extrabold leading-[1.08] text-text mb-3.5">
           그 시절, 그 사람에게<br/><span className="text-transparent" style={{ WebkitTextStroke: '1px var(--gold)' }}>아직 닿지 않은 말들</span>

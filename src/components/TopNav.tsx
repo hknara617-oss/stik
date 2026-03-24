@@ -7,11 +7,8 @@ export function TopNav({ activeTab, setActiveTab }: { activeTab: string, setActi
 
   return (
     <nav className="px-5 py-4 md:px-10 md:py-4 border-b border-border flex justify-between items-center sticky top-0 bg-bg/95 backdrop-blur-md z-50">
-      <div 
-        className="font-nanum text-[10px] tracking-[0.45em] uppercase text-gold cursor-pointer"
-        onClick={() => setActiveTab('v1')}
-      >
-        Signal · 시그널
+      <div className="font-nanum text-xl md:text-2xl font-extrabold tracking-tight">
+        Stik
       </div>
       <div className="flex items-center gap-3">
         <div className="hidden md:flex gap-0.5">
