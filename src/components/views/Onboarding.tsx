@@ -23,8 +23,28 @@ export function Onboarding({ onComplete }: { onComplete: () => void }) {
       
       <div className="max-w-[400px] w-full flex flex-col items-center justify-center min-h-[50vh] relative z-10 text-center">
         {step === 0 && (
-          <div className="animate-[noteIn_1s_ease-out_both] flex flex-col items-center justify-center">
-             <img src="/logo.png" alt="Stik Logo" className="w-[300px] md:w-[360px] h-auto drop-shadow-2xl" />
+          <div className="animate-[noteIn_1s_ease-out_both] flex flex-col items-center justify-center scale-110 md:scale-125">
+             {/* Pure CSS Replica of the provided Stik Post-it Logo */}
+             <div className="relative w-[220px] h-[220px] bg-gradient-to-br from-[#fde68a] to-[#fcd34d] shadow-[0_20px_40px_rgba(0,0,0,0.8)] flex flex-col items-center justify-center -rotate-2 rounded-sm origin-bottom-right">
+                {/* Tape */}
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-24 h-7 bg-white/40 backdrop-blur-sm shadow-sm opacity-80 rotate-1"></div>
+                {/* 4-point Star Glow Effect */}
+                <div className="relative mt-2 mb-4">
+                  <div className="absolute inset-0 bg-white/50 blur-md rounded-full w-12 h-12 -left-3 -top-2"></div>
+                  <div className="text-white text-5xl font-light drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">✦</div>
+                </div>
+                {/* Text: Stik */}
+                <div className="font-nanum text-[56px] font-extrabold text-white mb-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] tracking-tight leading-none">
+                  Stik
+                </div>
+                {/* Subtext */}
+                <div className="text-[8.5px] tracking-[0.25em] font-bold text-[#9a8868] uppercase font-dodum">
+                  Recall Your Memories
+                </div>
+                
+                {/* Folded Corner Effect */}
+                <div className="absolute bottom-0 right-0 w-8 h-8 bg-gradient-to-tl from-transparent via-transparent to-[#fef08a] shadow-[-2px_-2px_4px_rgba(0,0,0,0.1)] rounded-tl-sm" style={{ clipPath: 'polygon(100% 0, 0 100%, 100% 100%)' }}></div>
+             </div>
           </div>
         )}
 
