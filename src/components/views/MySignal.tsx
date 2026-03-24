@@ -7,9 +7,9 @@ import { useAuth } from "@/lib/useAuth";
 export function MySignal() {
   const { deviceId } = useAuth();
   const [temp, setTemp] = useState(35);
-  const [memCount, setMemCount] = useState(4);
+  const [memCount] = useState(4);
   const [daysLeft, setDaysLeft] = useState(25);
-  const [logs, setLogs] = useState<any[]>([
+  const [logs, setLogs] = useState<{bc:string, icon:string, bg:string, color:string, msg:string, sub:string, time:string, isNew:boolean}[]>([
     { bc: 'var(--warm)', icon: '👀', bg: 'rgba(245,158,11,0.1)', color: 'var(--warm)', msg: '이 벽에 새로운 방문자가 왔습니다', sub: '서울중학교 · 1998년 2학년 · 온도 +12°', time: '방금 전', isNew: true },
     { bc: 'var(--gold)', icon: '🧩', bg: 'rgba(201,169,110,0.1)', color: 'var(--gold)', msg: '기억 조각 "떡볶이 집"에 반응이 달렸습니다', sub: '내 신호와 기억 겹침 감지 · 온도 +6°', time: '23분 전', isNew: true },
   ]);
@@ -42,7 +42,7 @@ export function MySignal() {
       .on('postgres_changes', 
         { event: 'UPDATE', schema: 'public', table: 'signals', filter: `device_id=eq.${deviceId}` }, 
         (payload) => {
-          const newDoc = payload.new as any;
+          const newDoc = payload.new as { temperature?: number };
           if (newDoc && newDoc.temperature !== undefined) {
             setTemp(newDoc.temperature);
             // Add interaction log
@@ -88,7 +88,7 @@ export function MySignal() {
         <div className="absolute -top-20 -right-20 w-[480px] h-[480px] rounded-full pointer-events-none transition-colors duration-1000 ease-in-out" style={{ background: `radial-gradient(circle, ${cfg.glow} 0%, transparent 65%)` }}></div>
         <div className="text-[10.5px] tracking-[0.2em] uppercase text-muted mb-2">서울중학교 · 1998년 2학년</div>
         <div className="font-nanum text-[clamp(18px,3.2vw,30px)] font-bold text-text leading-[1.45] max-w-[560px] mb-3.5">
-          "창가 자리에 앉았던 너,<br/>아직도 생각나"
+          &quot;창가 자리에 앉았던 너,&quot;<br/>아직도 생각나
         </div>
         <div className="text-xs text-muted">보낸 날: 2026년 3월 1일 · 만료까지 {daysLeft}일</div>
       </div>

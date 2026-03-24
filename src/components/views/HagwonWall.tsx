@@ -38,7 +38,7 @@ export function HagwonWall() {
       
       const { signals } = await getWallSignals(wall.id);
       if (signals) {
-        setNotes(signals.map((s: any) => ({ t: s.message, c: s.color, r: (Math.random() - 0.5) * 5, f: 'var(--font-dodum)' })));
+        setNotes(signals.map((s: { message: string, color: string }) => ({ t: s.message, c: s.color, r: (Math.random() - 0.5) * 5, f: 'var(--font-dodum)' })));
       }
     } else {
       alert("벽을 찾거나 생성하는데 실패했습니다: " + error);
