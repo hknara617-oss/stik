@@ -2,14 +2,14 @@
 
 import { useState } from "react";
 import { findOrCreateHagwonWall, getWallSignals } from "@/app/actions/wallActions";
-import { createStik } from "@/app/actions/stikActions";
+import { createStik, reportStik } from "@/app/actions/stikActions";
 import { useAuth } from "@/lib/useAuth";
 
 export function HagwonWall() {
   const { deviceId } = useAuth();
   const [wallId, setWallId] = useState<string | null>(null);
   const [searchState, setSearchState] = useState<{region: string, subject: string, year: string, session: string} | null>(null);
-  const [notes, setNotes] = useState<{t: string, c: string, r: number, f: string}[]>([]); 
+  const [notes, setNotes] = useState<{id: string, t: string, c: string, r: number, f: string, isBlinded?: boolean}[]>([]); 
   
   const [regionInput, setRegionInput] = useState("");
   const [subjectInput, setSubjectInput] = useState("");
@@ -38,7 +38,14 @@ export function HagwonWall() {
       
       const { signals } = await getWallSignals(wall.id);
       if (signals) {
-        setNotes(signals.map((s: { message: string, color: string }) => ({ t: s.message, c: s.color, r: (Math.random() - 0.5) * 5, f: 'var(--font-dodum)' })));
+        setNotes(signals.map((s: { id: string, message: string, color: string, is_blinded: boolean }) => ({ 
+          id: s.id,
+          t: s.message, 
+          c: s.color, 
+          r: (Math.random() - 0.5) * 5, 
+          f: 'var(--font-dodum)',
+          isBlinded: s.is_blinded
+        })));
       }
     } else {
       alert("벽을 찾거나 생성하는데 실패했습니다: " + error);
@@ -50,17 +57,19 @@ export function HagwonWall() {
     if (!searchState || !wallId) return alert("먼저 학원 벽을 검색해주세요.");
     if (!deviceId) return alert("기기 식별자를 찾을 수 없습니다.");
     
-    const { success, error } = await createStik(wallId, deviceId, noteText, selectedColor);
+    const { success, error, signal } = await createStik(wallId, deviceId, noteText, selectedColor);
     
     if (!success) {
       return alert(error || "신호를 남기지 못했습니다.");
     }
     
     const newNote = {
+      id: signal.id,
       t: noteText,
       c: selectedColor,
       r: (Math.random() - 0.5) * 5,
-      f: Math.random() > 0.5 ? 'var(--font-nanum)' : 'var(--font-dodum)'
+      f: Math.random() > 0.5 ? 'var(--font-nanum)' : 'var(--font-dodum)',
+      isBlinded: false
     };
     
     setNotes([newNote, ...notes]);
@@ -193,19 +202,43 @@ export function HagwonWall() {
             </div>
             
             <div className="wv-wall overflow-hidden relative">
-              <div className="flex flex-wrap gap-3.5 content-start">
-                {notes.map((n, i) => (
-                  <div key={i} className="note" style={{ background: n.c, transform: `rotate(${n.r}deg)`, animationDelay: `${i*0.038}s` }}>
-                    <div className="text-[8.5px] tracking-[0.1em] uppercase text-[rgba(26,20,16,0.38)] mb-1.5">학원 · 익명</div>
-                    <div className="text-[12.5px] leading-[1.68] text-[rgba(26,20,16,0.87)] break-keep" style={{ fontFamily: n.f }}>{n.t}</div>
-                    <div className="note-fold"></div>
-                    <div className="absolute bottom-2 left-2.5 right-2.5 flex justify-between items-center">
-                      <div className="text-[9.5px] text-[rgba(26,20,16,0.32)] font-nanum">&apos;{searchState.year.substring(2)}</div>
-                      <div className="w-2 h-2 rounded-full bg-[rgba(26,20,16,0.15)]"></div>
-                    </div>
-                  </div>
-                ))}
+              {notes.map((note, i) => (
+            <div 
+              key={i}
+              className="absolute p-4 min-w-[120px] max-w-[200px] shadow-lg transition-transform hover:scale-105 group"
+              style={{
+                backgroundColor: note.c,
+                color: 'rgba(0,0,0,0.8)',
+                left: `${15 + (i % 4) * 20}%`,
+                top: `${20 + Math.floor(i / 4) * 25}%`,
+                transform: `rotate(${note.r}deg)`,
+                fontFamily: note.f
+              }}
+            >
+              <div className="text-sm font-medium leading-relaxed break-keep">
+                {note.isBlinded ? "🚫 신고 누적으로 블라인드 처리된 포스트잇입니다." : note.t}
               </div>
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-3 bg-white/30 backdrop-blur-sm"></div>
+              
+              {/* Report Button */}
+              {!note.isBlinded && (
+                <button 
+                  onClick={async (e) => {
+                    e.stopPropagation();
+                    if (!deviceId) return;
+                    if (confirm("이 게시물을 부적절한 콘텐츠로 신고하시겠습니까?")) {
+                      const { success, error } = await reportStik(note.id, deviceId, "부적절한 콘텐츠");
+                      if (success) alert("신고되었습니다.");
+                      else alert(error);
+                    }
+                  }}
+                  className="absolute bottom-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity text-[9px] text-black/40 hover:text-black/80"
+                >
+                  신고
+                </button>
+              )}
+            </div>
+          ))}
             </div>
           </div>
 

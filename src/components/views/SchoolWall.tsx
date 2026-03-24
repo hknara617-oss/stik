@@ -2,14 +2,14 @@
 
 import { useState } from "react";
 import { findOrCreateSchoolWall, getWallSignals } from "@/app/actions/wallActions";
-import { createStik } from "@/app/actions/stikActions";
+import { createStik, reportStik } from "@/app/actions/stikActions";
 import { useAuth } from "@/lib/useAuth";
 
 export function SchoolWall() {
   const { deviceId } = useAuth();
   const [wallId, setWallId] = useState<string | null>(null);
   const [searchState, setSearchState] = useState<{name: string, year: string, grade: string} | null>(null);
-  const [notes, setNotes] = useState<{t: string, c: string, r: number, f: string}[]>([]); // We will hold fetched notes here
+  const [notes, setNotes] = useState<{id: string, t: string, c: string, r: number, f: string, isBlinded?: boolean}[]>([]); // We will hold fetched notes here
   const [schoolInput, setSchoolInput] = useState("");
   const [yearInput, setYearInput] = useState("");
   const [gradeInput, setGradeInput] = useState("");
@@ -38,7 +38,14 @@ export function SchoolWall() {
       
       const { signals } = await getWallSignals(wall.id);
       if (signals) {
-        setNotes(signals.map((s: { message: string, color: string }) => ({ t: s.message, c: s.color, r: (Math.random() - 0.5) * 5, f: 'var(--font-dodum)' })));
+        setNotes(signals.map((s: { id: string, message: string, color: string, is_blinded: boolean }) => ({ 
+          id: s.id,
+          t: s.message, 
+          c: s.color, 
+          r: (Math.random() - 0.5) * 5, 
+          f: 'var(--font-dodum)',
+          isBlinded: s.is_blinded
+        })));
       }
     } else {
       alert("벽을 찾거나 생성하는데 실패했습니다: " + error);
@@ -50,17 +57,19 @@ export function SchoolWall() {
     if (!searchState || !wallId) return alert("먼저 학급 벽을 검색해주세요.");
     if (!deviceId) return alert("기기 식별자를 찾을 수 없습니다.");
     
-    const { success, error } = await createStik(wallId, deviceId, noteText, selectedColor);
+    const { success, error, signal } = await createStik(wallId, deviceId, noteText, selectedColor);
     
     if (!success) {
       return alert(error || "신호를 남기지 못했습니다.");
     }
     
     const newNote = {
+      id: signal.id,
       t: noteText,
       c: selectedColor,
       r: (Math.random() - 0.5) * 5,
-      f: Math.random() > 0.5 ? 'var(--font-nanum)' : 'var(--font-dodum)'
+      f: Math.random() > 0.5 ? 'var(--font-nanum)' : 'var(--font-dodum)',
+      isBlinded: false
     };
     
     setNotes([newNote, ...notes]);
