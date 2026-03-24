@@ -10,6 +10,7 @@ import { MemoryFragments } from "@/components/views/MemoryFragments";
 import { Countdown } from "@/components/views/Countdown";
 import { MatchModals } from "@/components/MatchModals";
 import { Onboarding } from "@/components/views/Onboarding";
+import { YoutubeBGM } from "@/components/YoutubeBGM";
 import { useAuth } from "@/lib/useAuth";
 
 export default function Home() {
@@ -42,6 +43,7 @@ export default function Home() {
         <div className={activeTab === 'v4' ? 'block' : 'hidden'}><Countdown /></div>
       </main>
 
+      <YoutubeBGM videoId="s7X3Yicm3yI" />
       <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
       
       <MatchModals step={matchStep} setStep={setMatchStep} />
