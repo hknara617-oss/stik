@@ -15,13 +15,13 @@ const dodum = Gowun_Dodum({
 });
 
 export const metadata: Metadata = {
-  title: "시그널 — 그 시절 그 사람에게",
-  description: "이름도 연락처도 모르지만 같은 교실에 있었던 당신에게",
+  title: "Stik — RECALL YOUR MEMORIES",
+  description: "이름은 가물가물해도 문득 그리워지는 그 시절 우리들",
   manifest: "/manifest.json",
   openGraph: {
-    title: "시그널 — 그 시절 그 사람에게",
-    description: "이름도 연락처도 모르지만 같은 교실에 있었던 당신에게 어둠 속 포스트잇을 붙입니다.",
-    siteName: "Signal",
+    title: "Stik — RECALL YOUR MEMORIES",
+    description: "이름은 가물가물해도 문득 그리워지는 그 시절 우리들. 어둠 속 포스트잇을 붙입니다.",
+    siteName: "Stik",
     locale: "ko_KR",
     type: "website",
   },
